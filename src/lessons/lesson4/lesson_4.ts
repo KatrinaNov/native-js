@@ -8,24 +8,42 @@ console.log('lesson 4');
 // Создайте промис, который постоянно находиться в состоянии pending.
 // В конструкторе промиса выведите в консоль сообщение "Promise is created".
 
+// const somePromise1: Promise<any> = new Promise( (res, rej) => {
+//     console.log('Promise is created')
+// });
+// console.log(somePromise1)
 
 // Task 02
 // Создайте промис, который после создания сразу же переходит в состояние resolve
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
+// const somePromise2: Promise<any> = new Promise( (res, rej) => {
+//     res('Promise Data')
+// }).then(res => console.log(res));
+// console.log(somePromise2)
 
 
 // Task 03
 // Создайте промис, который после создания сразу же переходит в состояние rejected
 // и возвращает строку 'Promise Error'
 // Получите данные промиса и выведите их в консоль
-
+// const somePromise3: Promise<any> = new Promise( (res, rej) => {
+//     rej('Promise Error')
+// }).then(res => console.log(res))
+//   .catch(err => console.log(err));
+// console.log(somePromise3)
 
 // Task 04
 // Создайте промис, который переходит в состояние resolved через 3с.
 // (Используйте setTimeout)
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
+// const somePromise4: Promise<any> = new Promise( (res, rej) => {
+//     setTimeout(response => {
+//         res('Promise Data')
+//     }, 3000)
+// }).then(res => console.log(res))
+// console.log(somePromise4)
 
 
 // Task 05
@@ -41,6 +59,80 @@ console.log('lesson 4');
 // свойства resolve и reject получают ссылки на соответствующие функции
 // resolve и reject. Следующие два обработчика запускают методы resolve и reject.
 
+type handlePromiseType = {
+  promise: null | Promise<any>
+  resolve: null | Function
+  reject: null | Function
+  onSuccess: (paramName: string) => void
+  onError: (paramName: string) => void
+}
+const handlePromise: handlePromiseType = {
+  promise: null,
+  resolve: null,
+  reject: null,
+  onSuccess: (paramName: string) => console.log(`Promise is resolved with data: ${paramName}`),
+  onError: (paramName: string) => console.log(`Promise is rejected with error: ${paramName}`),
+}
+
+export const createPromise = () => {
+  const somePromise: Promise<any> = new Promise((res, rej) => {
+    handlePromise.resolve = res;
+    handlePromise.reject = rej;
+  })
+  handlePromise.promise = somePromise;
+  handlePromise.promise
+    .then(handlePromise.onSuccess)
+    .catch(handlePromise.onError)
+}
+export const resolvePromise = () => {
+  handlePromise.resolve && handlePromise.resolve('Success')
+}
+export const rejectPromise = () => {
+  handlePromise.reject && handlePromise.reject('Bad')
+}
+
+// type testObjType = {
+//     promise: null | Promise<any>
+//     resolve: null | Function
+//     reject: null | Function
+//     onSuccess: (paramName: string) => void
+//     onError: (paramName: string) => void
+// }
+//
+// const handlePromise: testObjType = {
+//     promise: null,
+//     resolve: null,
+//     reject: null,
+//     onError: (paramName: string) => {
+//         console.log(`Promise is rejected with error: ${paramName}`)
+//     },
+//     onSuccess: (paramName: string) => {
+//         console.log(`Promise is resolved with data: ${paramName}`)
+//     },
+// }
+//
+// export const createPromise = () => {
+//     const somePromise: Promise<any> = new Promise( (res, rej) => {
+//         handlePromise.resolve = res;
+//         handlePromise.reject = rej;
+//     });
+//     handlePromise.promise = somePromise;
+//     handlePromise.promise
+//         .then(handlePromise.onSuccess)
+//         .catch(handlePromise.onError);
+//
+//     // @ts-ignore
+//     window.promObj = handlePromise;
+// }
+//
+// export const resolvePromise = () => {
+//     handlePromise.resolve && handlePromise.resolve('Yo Yo Yo');
+// }
+//
+// export const rejectPromise = () => {
+//     handlePromise.reject && handlePromise.reject('Sad story');
+// }
+
 
 // Task 06
 // Создайте промис, который через 1 с возвращает строку "My name is".
@@ -49,6 +141,18 @@ console.log('lesson 4');
 // Создайте функцию print, которая выводит в консоль значение своего параметра
 // Добавьте два метода then и передайте созданные функции.
 
+// const somePromise6 = new Promise((res,rej) => {
+//   setTimeout(response => {
+//     res('My name is')
+//   }, 1000)
+// })
+//
+// const onSuccess = (param: any) => `${param} Kate`
+// const print = (param: any) => console.log(param)
+//
+// somePromise6
+//   .then(onSuccess)
+//   .then(print)
 
 // Task 7
 // Создайте три промиса. Первый промис возвращает объект { name: "Anna" } через 2с,
@@ -56,6 +160,248 @@ console.log('lesson 4');
 // Получите результаты работы промисов, объедините свойства объектов
 // и выведите в консоль {name, age, city}
 
+// const somePromise71 = new Promise((res,rej) => {
+//   setTimeout(response => {
+//     res({name: 'Anna'})
+//   }, 2000)
+// })
+//
+// const somePromise72 = new Promise((res,rej) => {
+//   setTimeout(response => {
+//     res({age: 16})
+//   }, 3000)
+// })
+// const somePromise73 = new Promise((res,rej) => {
+//   setTimeout(response => {
+//     res({city: ''})
+//   }, 4000)
+// })
+
+// Promise.all([somePromise71, somePromise72, somePromise73])
+//   .then(values => {
+//     const result = values.reduce((acc: any, n: any) => ({...acc, ...n}), {})
+//     console.log(result)
+//   })
+
+
+// Задачки к собесам
+// setTimeout(()=> console.log(1), 0);
+// console.log(2);
+// (() => console.log(3))();
+// Promise.resolve(console.log(4));
+// // 2 3 4 1
+// // 2 3 1 4
+
+// function f(num:number) {
+//     console.log(num);
+// }
+// Promise.resolve(1)
+//     .then(f);
+// (function(){
+//     console.log(2);
+// })();
+// console.log(3);
+// new Promise((res, rej) => {
+//     console.log(4);
+// });
+// setTimeout(f, 0, 5);
+//
+// // 2 3 4 5 1
+// // 1 3 4 2 5
+//
+// // 2 3 4 1 5
+
+// async function sleep(ms:number) {
+//     setTimeout(() => {
+//         console.log(ms);
+//     }, ms*100);
+// }
+
+
+// async function sleep(ms:number) {
+//     return new Promise ( (res, rej) => {
+//             //res();
+//         setTimeout(() => {
+//             //res()
+//             res(console.log(ms));
+//             //res()
+//         }, ms*100);
+//             //res();
+//     });
+// }
+//
+// async function show() {
+//     await sleep(3)
+//     await sleep(2)
+//     await sleep(1)
+// }
+//
+// show();
+
+
+////////
+
+// Task 1
+
+// setTimeout(() => console.log(1), 0);
+// console.log(2);
+// (() => console.log(3))();
+// Promise.resolve(console.log(4));
+
+// 2 3 4 1
+
+// Task 2
+//
+// new Promise((res, rej) => {
+//     console.log(1);
+// })
+// new Promise((res, rej) => {
+//     setTimeout(()=> console.log(2), 0);
+// })
+// Promise.resolve(setTimeout(()=> console.log(3), 0));
+// console.log(4);
+// Promise.reject(console.log(5));
+
+// 1 4 5  Uncaught (in promise)  2 3
+//
+// // Task 3
+//
+// (function(){
+//     setTimeout(()=> console.log(1), 100);
+// })();
+// console.log(2);
+// new Promise((res, rej) => {
+//     setTimeout(()=> console.log(3), 50);
+// })
+// function f() {
+//     console.log(4);
+// }
+// Promise.resolve(console.log(5));
+
+// 2 5 3 1
+//
+// // Task 3a
+// (function(){
+//     setTimeout(()=> console.log(1), 100);
+// })();
+// console.log(2);
+// let i = 0;
+// while ( i < 5000000000 ) {
+//     i++
+// }
+// new Promise((res, rej) => {
+//     setTimeout(()=> console.log(3), 50);
+// })
+// function f() {
+//     console.log(4);
+// }
+// Promise.resolve(console.log(5));
+
+// 2 5 1 3
+
+//
+// // Task 4
+//
+// function f(num:number) {
+//     console.log(num);
+// }
+// Promise.resolve(1)
+//     .then(f);
+// (function(){
+//     console.log(2);
+// })();
+// console.log(3);
+// new Promise((res, rej) => {
+//     console.log(4);
+// });
+// setTimeout(f, 0, 5);
+
+// 2 3 4 1 5
+
+
+// // Task 5
+//
+// console.log(1);
+// function f() {
+//     console.log(2);
+// }
+// setTimeout(()=>{
+//     console.log(3);
+//     let p = new Promise((res, rej) => {
+//         console.log(4);
+//         res();
+//     });
+//     p.then(() => f())
+// },0);
+// let l = new Promise((res, rej) => {
+//     console.log(5);
+//     rej();
+// });
+// l.then(res => console.log(res)).catch(() => console.log(6));
+// console.log(7);
+
+// 1 5 7 6 3 4 2
+
+
+// // Task 6
+//
+// setTimeout(() => console.log(1), 0);
+// console.log(2);
+// new Promise((resolve, reject) => {
+//     setTimeout(() => reject(console.log(3)), 1000);
+// }).catch(() => console.log(4));
+// console.log(5);
+
+// 2 5 1 3  4
+
+// // Task 7
+//
+// async function sleep(ms: any) {
+//     setTimeout(() => {
+//         console.log(ms);
+//     }, ms*100);
+// }
+//
+// async function show() {
+//     await sleep(3)
+//     await sleep(2)
+//     await sleep(1)
+// }
+//
+// show();
+//
+//
+// // Task 8
+// let pr1 = new Promise((res) => {
+//     res(10);
+// });
+// let pr2 = new Promise((res) => {
+//     res(0)
+// });
+// pr1
+//     .then((res: any) => {
+//         console.log(res);
+//         return res + 2;
+//     })
+//     .then((res: any) => {
+//         console.log(res);
+//         return res + 2;
+//     })
+//     .then(console.log);
+// pr2
+//     .then((res: any) => {
+//         console.log(res);
+//         return res + 1;
+//     })
+//     .then((res: any) => {
+//         console.log(res);
+//         return res + 1;
+//     })
+//     .then(console.log);
+
+// 10 0 12 1 14 2
+
+// https://thebestcode.ru/
 
 
 // just a plug

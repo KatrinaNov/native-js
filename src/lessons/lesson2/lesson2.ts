@@ -333,6 +333,12 @@ function myFlat(arr: Array<any>, d = 1): any {
 console.log(myFlat(arrExample, Infinity))
 
 
+function myFlat2(arr: Array<any>): any {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? myFlat2(val) : val), []);// [1, 2, 3, 4]
+}
+console.log(myFlat2(arrExample))
+
+
 
 // just a plug
 export default () => {
