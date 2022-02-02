@@ -21,6 +21,334 @@ console.log('Lesson 5');
 // https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%BE-%D0%BE-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%B0%D1%85-apply-call-%D0%B8-bind-%D0%BD%D0%B5%D0%BE%D0%B1%D1%85%D0%BE%D0%B4%D0%B8%D0%BC%D1%8B%D1%85-%D0%BA%D0%B0%D0%B6%D0%B4%D0%BE%D0%BC%D1%83-javascript-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D1%83-ddd5f9b06290
 
 
+//console.log(this)
+
+
+// function f() {
+//     console.log('Function ', this);
+// }
+//
+// f()
+
+// let obj = { name: 'Evgen' };
+// function f() {
+//     console.log('Function ', this);
+// }
+// f()
+//
+// obj.f = f;
+// obj.f();
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// function f() {
+//     console.log('Function ', this);
+// }
+//
+// obj.f = f;
+// obj2.f = obj.f;
+// obj2.f();
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     f() {
+//         function inner() {
+//             console.log('Function ', this);
+//         }
+//         inner();
+//     }
+// };
+//
+// obj2.f();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     f() {
+//         const _this = this;
+//         function inner() {
+//             console.log('Function ', this);
+//             console.log('closure _this', _this);
+//         }
+//         inner();
+//     }
+// };
+//
+// obj2.f();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     f() {
+//         function inner() {
+//             console.log('Function ', this);
+//         }
+//         return inner;
+//     }
+// };
+//
+// obj.f = obj2.f();
+// obj.f();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     f() {
+//         function inner() {
+//             console.log('Function ', this);
+//         }
+//         return inner;
+//     },
+//     innerObj: {
+//         name: 'innerObj',
+//         f() {
+//             console.log('Function ', this);
+//         },
+//     }
+// };
+//
+// obj2.innerObj.f();
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// function f() {
+//     function inner() {
+//         console.log('Function ', this);
+//     }
+//     return inner;
+// }
+//
+// obj.f = f();
+// obj.f();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// function f() {
+//     function inner() {
+//         console.log('Function ', this);
+//     }
+//     return inner;
+// }
+//
+// obj.f = f();
+// obj2.f = obj.f;
+// obj2.f();
+
+
+// var test = function UUUU() {
+//     // UUUU(); - работает всегда
+//     // test(); - работает пока есть test
+// };
+//
+// console.dir(test);
+//
+// let test2 = test;
+// test = null;
+// test2()
+//
+// console.dir(test2);
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// function f() {
+//     function inner() {
+//         console.log('Function ', this);
+//     }
+//     return inner;
+// }
+//
+// f.f = f();
+// f.f();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// let arrow = () => {
+//     console.log('arrow ', this);
+// };
+//
+// arrow();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = { name: 'Hanna' };
+//
+// let arrow = () => {
+//     console.log('arrow ', this);
+// };
+//
+// obj2.a = arrow;
+// obj2.a();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     a: () => {
+//         console.log('arrow ', this);
+//         function inner() {
+//             console.log('Function ', this);
+//         }
+//         inner();
+//     },
+// };
+//
+// obj2.a();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     a: () => {
+//         console.log('arrow ', this);
+//         let inner = () => {
+//             console.log('Function ', this);
+//         }
+//         inner();
+//     },
+// };
+//
+// obj.a = obj2.a();
+
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     a()  {
+//         console.log('arrow ', this);
+//         let inner = () => {
+//             console.log('Function ', this);
+//         }
+//         inner();
+//     },
+// };
+//
+// obj.a = obj2.a();
+
+
+// let obj = { name: 'Evgen' };
+// let obj2 = {
+//     name: 'Hanna',
+//     a()  {
+//         let bla = 'bla';
+//         console.log('arrow ', this);
+//         let inner = () => {
+//             console.log('Function ', this);
+//             console.log(bla);
+//         }
+//         return inner;
+//     },
+// };
+//
+// obj.a = obj2.a();
+// obj.a();
+
+
+// let obj2 = {
+//     name: 'Hanna',
+//     test() {
+//         setTimeout(function() {
+//             console.log('Function ', this);
+//         }, 100);
+//         setTimeout(() => {
+//             console.log('arrow ', this);
+//         }, 100);
+//     },
+// };
+//
+// obj2.test();
+
+
+// Call, Apply, Bind
+
+// let obj = { name: 'Evgen'};
+// let obj2 = {
+//     name: 'Hanna',
+//     sayHi() {
+//         console.log(`Hi! My name is ${this.name}`);
+//     }
+// };
+//
+// //obj2.sayHi.bind(obj)()
+// let bindedFunc = obj2.sayHi.bind(obj);
+// bindedFunc()
+
+
+// let obj = { name: 'Evgen'};
+// let obj2 = {
+//     name: 'Hanna',
+//     sayHi( a1:any, a2:any, a3:any) {
+//         console.log(`Hi! My name is ${this.name}. My args are - ${a1},${a2},${a3}`);
+//     }
+// };
+
+// // @ts-ignore
+// obj2.sayHi.bind(obj, 100, 200, 250, 400)(500, 1000);
+// // @ts-ignore
+// obj2.sayHi();
+
+// obj2.sayHi.call(obj, 50, 100, 150);
+// obj2.sayHi.apply(obj, [50, 100, 150]);
+//
+// function test(a: any, b: any, c: any) {
+//     console.log(arguments);
+//     console.log([].filter.call(arguments, el => el > 11));
+// }
+//
+// test(5,10,20)
+
+// function test(a, b, c) {
+//     console.log(arguments);
+//     console.log([].filter.call(arguments, el => el > 11));
+// }
+//
+// test(5,10,20)
+
+
+// const constructor = (name, age, city) => {
+//     return {
+//         name, age, city, sayHi() { console.log(this.name)},
+//     };
+// }
+//
+// let obj = constructor('Hanna', 30, 'Minsk');
+// console.log(obj);
+
+
+//console.dir(function() {})
+
+
+// function Test(name, age) {
+//     // this = {}
+//     this.name = name;
+//     this.age = age;
+//
+// }
+// Test.prototype.sayHi = function(){ return this.name};
+// Test.prototype.sayHi = function(){ return this.name};
+// Test.prototype.sayHi = function(){ return this.name};
+// Test.prototype = {
+//     constructor: Test,
+//     admn(){},
+//     mcbvcv(){}
+// };
+//
+// let obj = new Test('Hanna', 20);
+// let obj2 = new Test('Evgen', 35);
+// console.log(obj.sayHi === obj2.sayHi);
+
 // Task 01
 // Дан объект someObj, реализуйте функцию greeting и присвойте ее ключу объекта с аналогичным именем.
 // Функция должна вернуть строку `My name is ${name}. I am ${age}`, где name и age берутся из свойств объекта
@@ -75,6 +403,7 @@ function sumTwoNumbers(a:number,b:number):number {return a + b};
 // 4) Создать метод hi у объекта One, который всегда вызывает метод greeting объекта helperObj от имени Two
 
 // Реализовать задачи 2-4 из Bind с помощью Call
+
 
 
 
