@@ -509,7 +509,7 @@ export const Lesson5 = () => {
     const bindNumber = (callBack: any, num: any) => {
         return callBack.bind(null, num)
     }
-    console.log(bindNumber(sumTwoNumbers, 5)(2))
+    console.log(bindNumber(sumTwoNumbers, 5)(10))
 
 
 // 2) Напишите функцию которая принимает первым аргументом объект One, а вторым helperObj. Данная функция
@@ -535,16 +535,8 @@ export const Lesson5 = () => {
 
 // Реализовать задачи 2-4 из Bind с помощью Call
 
-    function f() {
-        //@ts-ignore
-        alert( this ); // null
-    }
 
-    let user = {
-        g: f.bind(null)
-    };
 
-    user.g();
 
 
 
