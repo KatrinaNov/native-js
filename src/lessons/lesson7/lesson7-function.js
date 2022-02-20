@@ -1,4 +1,3 @@
-import './lesson_7'
 //console.log('Lesson 7');
 
 // __Proto__
@@ -21,27 +20,27 @@ import './lesson_7'
 // walk => `${this.name} walking`
 // проверить, что методы работают
 
-class Animal {
-  name: string = 'Animal'
-
-  constructor(name: string) {
+function Animal(name = 'Animal') {
+    //@ts-ignore
     this.name = name
-  }
-
-  walk() {
-    console.log(`${this.name} walking`)
-  }
-
-  eat() {
-    console.log(`${this.name} eating`)
-  }
-
-  sleep() {
-    console.log(`${this.name} sleeping`)
-  }
 }
 
+Animal.prototype = {
+    walk() {
+        console.log(`${this.name} walking`)
+    },
+    eat() {
+        console.log(`${this.name} eating`)
+    },
+    sleep() {
+        console.log(`${this.name} sleeping`)
+    },
+    constructor: Animal,
+}
+
+//@ts-ignore
 const cat = new Animal('Barsik')
+console.log(cat)
 cat.walk()
 cat.eat()
 cat.sleep()
@@ -52,22 +51,31 @@ cat.sleep()
 // параметра, реализовать методы roar и climb аналогично классу Animal
 // проверить, что все методы работают
 
-class Monkey extends Animal {
-
-  constructor(name: string = 'Monkey') {
-    super(name);
-  }
-
-  roar() {
-    console.log(`${this.name} roaring`)
-  }
-
-  climb() {
-    console.log(`${this.name} clombing`)
-  }
+function Monkey(name = 'Monkey') {
+    //@ts-ignore
+    Animal.call(this, name)
 }
 
+Monkey.prototype = Object.create(Animal.prototype, {
+    roar: {
+        value: function () {
+            console.log(`${this.name} roaring`)
+        }
+    },
+    climb: {
+        value: function () {
+            console.log(`${this.name} clombing`)
+        }
+    },
+    constructor: {
+        value: Monkey,
+    },
+})
+
+
+//@ts-ignore
 const monkey = new Monkey('My monkey')
+console.log(monkey)
 monkey.roar()
 monkey.climb()
 monkey.eat()
@@ -76,20 +84,27 @@ monkey.eat()
 // Реализовать класс Human на базе класса Monkey, конструктор принимает name(по умолчанию 'Human') в качестве
 // параметра, реализовать методы speak и think аналогично классу Animal
 // проверить, что все методы работают
-class Human extends Monkey {
 
-  constructor(name: string = 'Human') {
-    super(name);
-  }
-
-  speak() {
-    console.log(`${this.name} speaking`)
-  }
-
-  think() {
-    console.log(`${this.name} thinking`)
-  }
+function Human(name = 'Human') {
+    //@ts-ignore
+    Monkey.call(this, name)
 }
+
+Human.prototype = Object.create(Monkey.prototype, {
+    speak: {
+        value: function () {
+            console.log(`${this.name} speaking`)
+        }
+    },
+    think: {
+        value: function () {
+            console.log(`${this.name} thinking`)
+        }
+    },
+    constructor: {
+        value: Human,
+    },
+})
 
 const human = new Human('Kate')
 human.speak()
@@ -103,30 +118,7 @@ human.eat()
 // Task 05
 // Используя метод Apply реализовать свой собственный метод bind
 
-//@ts-ignore
-Function.prototype.customBind = function (ctx, ...args) {
-  const _this = this
-  //@ts-ignore
-  return function (...args2) {
-    return _this.apply(ctx, [...args,...args2])
-  }
-}
-
-
-let obj = {
-  name: 'Kate',
-  sayHi: function() {
-    console.log(this.name)
-  }
-}
-let obj2 = {
-  name: 'Andrew',
-}
-//@ts-ignore
-obj.sayHi.customBind(obj2)()
-console.log(obj)
-
 
 // just a plug
-export default () => {
-};
+// export default () => {
+// };
