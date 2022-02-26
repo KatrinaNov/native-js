@@ -65,10 +65,11 @@ const tree = {
         }]
 };
 var sum = 0;
+
 function countValues(list) {
     sum += list.valueNode;
     if (list.next) {
-        for (let i=0; i < list.next.length; i++) {
+        for (let i = 0; i < list.next.length; i++) {
             countValues(list.next[i])
         }
     }
@@ -76,7 +77,6 @@ function countValues(list) {
 }
 
 // console.log(countValues(tree))
-
 
 
 // Task 5
@@ -166,10 +166,10 @@ let arr = [3, 6, 1, 44, 553, 5]
 function bubbleSort(arr) {
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr.length - i - 1; j++) {
-            if (arr[j] > arr[j+1]) {
+            if (arr[j] > arr[j + 1]) {
                 let temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
 
             }
         }
@@ -183,18 +183,67 @@ function bubbleSort(arr) {
 // Есть строка, состоящая из разных скобок - str = "())({}}{()][][", написать функцию проверки закрыты ли все.
 
 const str = "())({}}{()][][";
+const str1 = "()({}){()[]}";
 
 function checkPair(str) {
-
+    if (str.length % 2) return false
+    // пары скобок
+    let br = "(){}[]";
+    // стек открывающих скобок
+    let stek = [];
+    for (let i = 0; i < str.length; i++) {
+        let index = br.indexOf(str[i]);
+        // если скобка закрывающая
+        if (index % 2) {
+            // если открывающих скобок нет, плохо
+            if (stek.length === 0) return false;
+            // берем последнюю скобку из открывающих
+            let lastBracket = stek.pop();
+            // если открывающая не соответствует закрывающей - плохо
+            if (lastBracket !== br[index - 1]) return false
+        } else {
+            // если открывающая, добавляем ее в стек.
+            stek.push(str[i])
+        }
+    }
+    return stek.length === 0
 }
 
+// console.log(checkPair(str))
+// console.log(checkPair('{}[]()'))
+// console.log(checkPair('{)'))
 
 // Task 12
 // Необходимо написать функцию, принимающую в аргументах массив целых чисел и возвращающую новый массив, состоящий только из уникальных значений первого массива.
+// function uniqueArray(arr) {
+//     return [...new Set(arr)]
+// }
+
+// function uniqueArray(arr) {
+//     let newArr = [];
+//     for (let i = 0; i < arr.length; i++) {
+//         if (newArr.indexOf(arr[i]) === -1) {
+//             newArr.push(arr[i])
+//         }
+//     }
+//     return newArr;
+// }
+
+// function uniqueArray(arr) {
+//     return arr.filter((item, index, arr) => arr.indexOf(item) === index);
+// }
+//
+// console.log(uniqueArray([3,5,3,3,4,7,5]))
 
 // Task 13
 // Написать функцию, принимающую аргументом массив чисел и возвращающую новый массив, состоящий из удвоенных значений первого.
 // f([1, 2, null, 7, 8, null, 3]); // => [2, 4, 14, 16, 6]
+
+// function double(arr) {
+//     return arr.filter(item => item).map(item => item*2)
+// }
+//
+// console.log(double([1, 2, null, 7, 8, null, 3]))
 
 // Task 14
 // Необходимо написать функцию, возвращающую значения всех вершин дерева
@@ -219,21 +268,89 @@ const tree2 = {
         }
     ]
 };
+var arrOfValues = []
+
+function getValuesOfTree(tree) {
+    arrOfValues.push(tree.value);
+    if (tree.children) {
+        // for (let i=0; i < tree.children.length; i++) {
+        //     getValuesOfTree(tree.children[i])
+        // }
+        tree.children.forEach((item) => {
+            getValuesOfTree(item)
+        })
+    }
+    return arrOfValues;
+}
+
+// console.log(getValuesOfTree(tree2))
 
 // Task 15
 // Необходимо написать функцию, возвращающую сумму всех вершин дерева из Task 14
 
+// var sumOfValues = 0
+// function sumValuesOfTree(tree) {
+//     sumOfValues += tree.value;
+//     if (tree.children) {
+//         // for (let i=0; i < tree.children.length; i++) {
+//         //     getValuesOfTree(tree.children[i])
+//         // }
+//         tree.children.forEach((item) => {
+//             sumValuesOfTree(item)
+//         })
+//     }
+//     return sumOfValues;
+// }
+//
+// console.log(sumValuesOfTree(tree2))
+
 // Task 16
 // Надо реализовать «бомбу» (в виде функции-конструктора), которая получает на входе время, через которое взорвется и
 // некоторый «звук взрыва» (строку, которую вернет через заданное время).
+
+// function Bomba(time) {
+//     this.time = time;
+// }
+// Bomba.prototype.detonate = function() {
+//     setTimeout(() => alert('Boom!'), this.time)
+// }
+//
+// const bomba = new Bomba(2000);
+// bomba.detonate()
 
 // Task 17
 // Необходимо реализовать функцию, принимающую в аргументах строку, состоящую из букв и вернуть новую строку,
 // в которой повторяющиеся буквы заменены количеством повторений.
 // rle('AVVVBBBVVXDHJFFFFDDDDDDHAAAAJJJDDSLSSSDDDD'); // => 'AV3B3V2XDHJF4D6HA4J3D2SLS3D4'
 
+// function rle(str) {
+//     let newStr = [];
+//     let count = 0;
+//     for (let i = 0; i < str.length; i++) {
+//         if (str[i] === newStr[newStr.length-1]) {
+//             count +=1
+//         } else {
+//             count && newStr.push(count+1)
+//             newStr.push(str[i]);
+//             count = 0;
+//         }
+//     }
+//     count && newStr.push(count+1)
+//     return newStr.join('');
+// }
+//
+// console.log(rle('AVVVBBBVVXDHJFFFFDDDDDDHAAAAJJJDDSLSSSDDDD'))
+
 // Task 18
 // Реализуйте функцию isSorted(), которая возвращает true или false в зависимости о того, отсортирован ли переданный ей числовой массив.
+
+// function isSorted(arr) {
+//     // console.log(arr.sort().join(''))
+//     // console.log(arr.join(''))
+//     return arr.join('') === [...arr].sort().join('')
+// }
+//
+// console.log(isSorted([3, 9, -3, 10]))
 
 // Task 19
 // Реализуйте функцию missing(), которая принимает неотсортированный массив уникальных чисел (то есть, числа в нём не повторяются)
@@ -245,6 +362,13 @@ const tree2 = {
 // missing([5, 1, 4, 2])               // 3
 // missing([1, 2, 3, 4])               // undefined
 
+// function missing(arr) {
+//     let number = arr.sort().find((item, i) => item !== i+1)
+//     return number && number - 1
+// }
+//
+//
+// console.log(missing([1, 4, 3]))
 // Task 20
 // Реализуйте класс LinkedList, не используя встроенные массивы JavaScript ( [] ). Ваш LinkedList должен поддерживать лишь 2 метода: add() и has().
 // class LinkedList {...}
@@ -255,17 +379,59 @@ const tree2 = {
 // list.has(4)                           // true
 // list.has(6)                           // false
 
+/**
+ * LinkedList has 2 members, head and tail:
+ * - head is a value
+ * - tail is either another LinkedList, or null
+ */
+class LinkedList {
+    constructor(head, ...tail) {
+        this.head = head
+        this.tail = tail.length
+            ? new LinkedList(...tail)
+            : null
+    }
+
+    add(item) {
+        if (this.tail) {
+            this.tail.add(item)
+        } else {
+            this.tail = new LinkedList(item)
+        }
+    }
+
+    has(item) {
+        if (this.head === item) {
+            return true
+        }
+        if (this.tail === null) {
+            return false
+        }
+        return this.tail.has(item)
+    }
+}
+
+let list = new LinkedList(1, 2, 3)
+// console.log(list.add(4))
+// console.log(list.add(5))
+// console.log(list.has(1))                        // true
+// console.log(list.has(4))                         // true
+// console.log(list.has(6))
+
+
 // Task 21
 // Что выведет консоль?
 
-Promise
-    .resolve()
-    .then(() => console.log(1))
-    .then(() => console.log(2))
-    .then(() => console.log(3));
+// Promise
+//     .resolve()
+//     .then(() => console.log(1))
+//     .then(() => console.log(2))
+//     .then(() => console.log(3));
+//
+// Promise
+//     .resolve()
+//     .then(() => console.log(4))
+//     .then(() => console.log(5))
+//     .then(() => console.log(6));
 
-Promise
-    .resolve()
-    .then(() => console.log(4))
-    .then(() => console.log(5))
-    .then(() => console.log(6));
+//1 4 2 5 3 6
