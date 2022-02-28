@@ -25,7 +25,7 @@
 // function getStr() {
 // 	return [].slice.call(arguments, 1).join(arguments[0])
 // }
-
+//
 // function getStr(separator, ...args) {
 //     return args.join(separator);
 // }
@@ -64,17 +64,30 @@ const tree = {
             ]
         }]
 };
-var sum = 0;
+// var sum = 0;
+//
+// function countValues(list) {
+//     sum += list.valueNode;
+//     if (list.next) {
+//         for (let i = 0; i < list.next.length; i++) {
+//             countValues(list.next[i])
+//         }
+//     }
+//     return sum
+// }
 
-function countValues(list) {
-    sum += list.valueNode;
-    if (list.next) {
-        for (let i = 0; i < list.next.length; i++) {
-            countValues(list.next[i])
-        }
-    }
-    return sum
-}
+// function getValue(x) {
+//     let sum = 0
+//     for (let key in x) {
+//         if (key === 'valueNode') {
+//             sum += x[key]
+//         }
+//         else {
+//             sum += getValue(x[key])
+//         }
+//     }
+//     return sum
+// }
 
 // console.log(countValues(tree))
 
@@ -82,11 +95,10 @@ function countValues(list) {
 // Task 5
 // исправить код, что бы работал правильно
 
-
-// for (var i = 0; i < 10; i++) {
-//     let j = i;
+//
+// for (let i = 0; i < 10; i++) {
 //     setTimeout(function () {
-//         console.log(j);
+//         console.log(i);
 //     }, 100);
 // }
 
@@ -131,30 +143,52 @@ function Foo(func, name, author) {
 
 // function f2(arg) {
 //     var val = arg;
-//     return function(arg) {
-//         if (arg !== undefined) {
-//             return f2(arg + val)
-//         } else {
-//             return val
-//         }
+//     return function(arg2) {
+//         return (arg2 !== undefined) ?  f2(arg2 + val) : val
 //     }
 // }
+
+
+// let sum = 0
 //
-// console.log(f2(0)(3)(1)(5)())
+// const foo = (number = 0) => {
+//     if (number === 0) return sum
+//     sum += number
+//     return foo
+// };
+//
+// console.log(foo(1)(2)(3)(6)(5)())
+
+
+// свой map
+// const array=[1,2,3,4]
+// Array.prototype.myMap=function(callback){
+//     console.log(this)
+//     const newArr=[]
+//     for (let i=0;i<this.length;i++){
+//         newArr.push(callback(this[i]))
+//     }
+//     return newArr
+// }
+
 // Task 9
 // Реализовать функции seven, plus, one, five, minus, two так, что бы следующие вызовы работали seven(plus(one())) -> 8. five(minus(two())) -> 3
 
-// function seven(arg) {
-//     return 7 + (arg || 0);
-// }
+function seven(arg = 0) {
+    return 7 + arg;
+}
+function one(arg = 0) {
+    return 1 + arg;
+}
 //
 // function plus(arg) {
 //     return arg
 // }
-//
-// function one(arg) {
-//     return 1 + (arg || 0);
+
+// function minus(arg) {
+//     return -arg
 // }
+//
 //
 // console.log(seven(plus(one())))
 
@@ -185,29 +219,50 @@ function bubbleSort(arr) {
 const str = "())({}}{()][][";
 const str1 = "()({}){()[]}";
 
-function checkPair(str) {
-    if (str.length % 2) return false
-    // пары скобок
-    let br = "(){}[]";
-    // стек открывающих скобок
-    let stek = [];
-    for (let i = 0; i < str.length; i++) {
-        let index = br.indexOf(str[i]);
-        // если скобка закрывающая
-        if (index % 2) {
-            // если открывающих скобок нет, плохо
-            if (stek.length === 0) return false;
-            // берем последнюю скобку из открывающих
-            let lastBracket = stek.pop();
-            // если открывающая не соответствует закрывающей - плохо
-            if (lastBracket !== br[index - 1]) return false
-        } else {
-            // если открывающая, добавляем ее в стек.
-            stek.push(str[i])
-        }
-    }
-    return stek.length === 0
-}
+// function checkPair(str) {
+//     if (str.length % 2) return false
+//     // пары скобок
+//     let br = "(){}[]";
+//     // стек открывающих скобок
+//     let stek = [];
+//     for (let i = 0; i < str.length; i++) {
+//         let index = br.indexOf(str[i]);
+//         // если скобка закрывающая
+//         if (index % 2) {
+//             // если открывающих скобок нет, плохо
+//             if (stek.length === 0) return false;
+//             // берем последнюю скобку из открывающих
+//             let lastBracket = stek.pop();
+//             // если открывающая не соответствует закрывающей - плохо
+//             if (lastBracket !== br[index - 1]) return false
+//         } else {
+//             // если открывающая, добавляем ее в стек.
+//             stek.push(str[i])
+//         }
+//     }
+//     return stek.length === 0
+// }
+
+// function checkPair(str) {
+//     const stack = []
+//     const obj = {
+//         "(": ')',
+//         "[": ']',
+//         "{": '}',
+//     }
+//     for (let i = 0; i < str.length; i++) {
+//         const bracket = str[i]
+//         if (bracket === '(' || bracket === '[' || bracket === '[') {
+//             stack.push(bracket)
+//         } else {
+//             const lastEl = stack.pop()
+//             if (bracket !== obj[lastEl]) {
+//                 return false
+//             }
+//         }
+//     }
+//     return true
+// }
 
 // console.log(checkPair(str))
 // console.log(checkPair('{}[]()'))
@@ -233,7 +288,38 @@ function checkPair(str) {
 //     return arr.filter((item, index, arr) => arr.indexOf(item) === index);
 // }
 //
+// function uniqueArray(arr) {
+//     let newArr = {}
+//
+//     arr.forEach(item => {
+//         newArr[item] = item
+//     })
+//     return Object.keys(newArr)
+// }
+//
 // console.log(uniqueArray([3,5,3,3,4,7,5]))
+
+// const intervalId = setInterval(() => { console.log('a') }, 10)
+// setTimeout(() => {
+//     const promise = new Promise((res) => { console.log('b'); res('c') });
+//     promise.then((value) => {
+//         console.log(value);
+//         setTimeout(() => {
+//             console.log('d')
+//             clearInterval(intervalId)
+//         }, 10)
+//     })
+//     console.log('e')
+// }, 10)
+
+// a b e c a d
+(async()=>{
+    await new Promise((res,rej)=>res(1))
+    return 2
+})().then((n)=>console.log('then', n))
+    .catch((n)=>console.log('catch', n))
+
+//
 
 // Task 13
 // Написать функцию, принимающую аргументом массив чисел и возвращающую новый массив, состоящий из удвоенных значений первого.
@@ -268,20 +354,20 @@ const tree2 = {
         }
     ]
 };
-var arrOfValues = []
-
-function getValuesOfTree(tree) {
-    arrOfValues.push(tree.value);
-    if (tree.children) {
-        // for (let i=0; i < tree.children.length; i++) {
-        //     getValuesOfTree(tree.children[i])
-        // }
-        tree.children.forEach((item) => {
-            getValuesOfTree(item)
-        })
-    }
-    return arrOfValues;
-}
+// var arrOfValues = []
+//
+// function getValuesOfTree(tree) {
+//     arrOfValues.push(tree.value);
+//     if (tree.children) {
+//         // for (let i=0; i < tree.children.length; i++) {
+//         //     getValuesOfTree(tree.children[i])
+//         // }
+//         tree.children.forEach((item) => {
+//             getValuesOfTree(item)
+//         })
+//     }
+//     return arrOfValues;
+// }
 
 // console.log(getValuesOfTree(tree2))
 
@@ -323,23 +409,23 @@ function getValuesOfTree(tree) {
 // в которой повторяющиеся буквы заменены количеством повторений.
 // rle('AVVVBBBVVXDHJFFFFDDDDDDHAAAAJJJDDSLSSSDDDD'); // => 'AV3B3V2XDHJF4D6HA4J3D2SLS3D4'
 
-// function rle(str) {
-//     let newStr = [];
-//     let count = 0;
-//     for (let i = 0; i < str.length; i++) {
-//         if (str[i] === newStr[newStr.length-1]) {
-//             count +=1
-//         } else {
-//             count && newStr.push(count+1)
-//             newStr.push(str[i]);
-//             count = 0;
-//         }
-//     }
-//     count && newStr.push(count+1)
-//     return newStr.join('');
-// }
+function rle(str) {
+    let newStr = [];
+    let count = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === newStr[newStr.length-1]) {
+            count +=1
+        } else {
+            count && newStr.push(count+1)
+            newStr.push(str[i]);
+            count = 0;
+        }
+    }
+    count && newStr.push(count+1)
+    return newStr.join('');
+}
 //
-// console.log(rle('AVVVBBBVVXDHJFFFFDDDDDDHAAAAJJJDDSLSSSDDDD'))
+console.log(rle('AAVVVBBBVVXDHJFFFFDDDDDDHAAAAJJJDDSLSSSDDDD'))
 
 // Task 18
 // Реализуйте функцию isSorted(), которая возвращает true или false в зависимости о того, отсортирован ли переданный ей числовой массив.
